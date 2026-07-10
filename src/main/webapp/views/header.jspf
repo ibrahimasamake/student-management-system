@@ -1,0 +1,11 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<div class="top-nav">
+    <div class="nav-inner">
+        <a href="${pageContext.request.contextPath}/dashboard" class="nav-brand">Student Manager</a>
+        <div class="nav-links">
+            <a href="${pageContext.request.contextPath}/dashboard" class="nav-link ${pageContext.request.servletPath eq '/views/dashboard.jsp' ? 'active' : ''}">Dashboard</a>
+            <a href="${pageContext.request.contextPath}/students?action=list" class="nav-link">Students</a>
+            <a href="${pageContext.request.contextPath}/students?action=add" class="nav-link">Add Student</a>
+        </div>
+    </div>
+</div>
