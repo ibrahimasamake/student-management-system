@@ -3,12 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.studentmgmt</groupId>
+    <groupId>com.sms</groupId>
     <artifactId>student-management-system</artifactId>
     <version>1.0.0</version>
     <packaging>war</packaging>
 
     <name>Student Management System</name>
+    <description>A simple student management web application using Jakarta Servlet, JSP, JDBC, and MySQL.</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

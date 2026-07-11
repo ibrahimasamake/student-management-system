@@ -1,75 +1,47 @@
--- MySQL dump 10.13  Distrib 8.0.46, for macos15 (x86_64)
---
--- Host: localhost    Database: student_management_db
--- ------------------------------------------------------
--- Server version	8.0.46
+CREATE DATABASE IF NOT EXISTS student_management_db
+    DEFAULT CHARACTER SET utf8mb4
+    DEFAULT COLLATE utf8mb4_unicode_ci;
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+USE student_management_db;
 
---
--- Current Database: `student_management_db`
---
+DROP TABLE IF EXISTS students;
+DROP TABLE IF EXISTS departments;
 
-/*!40000 DROP DATABASE IF EXISTS `student_management_db`*/;
+CREATE TABLE departments (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `student_management_db` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE TABLE students (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    roll_number VARCHAR(20) NOT NULL UNIQUE,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    phone VARCHAR(20),
+    gender VARCHAR(10),
+    date_of_birth DATE,
+    department_id BIGINT,
+    address TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_student_department FOREIGN KEY (department_id) REFERENCES departments(id)
+        ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-USE `student_management_db`;
+INSERT INTO departments (name, description) VALUES
+('Computer Science', 'Department of Computer Science and Engineering'),
+('Mathematics', 'Department of Mathematics and Statistics'),
+('Physics', 'Department of Physics and Astronomy'),
+('Engineering', 'Department of Engineering and Technology'),
+('Business Administration', 'Department of Business and Management');
 
---
--- Table structure for table `students`
---
-
-DROP TABLE IF EXISTS `students`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `students` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `student_code` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `first_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `date_of_birth` date NOT NULL,
-  `gender` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci,
-  `course` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `enrollment_year` int NOT NULL,
-  `status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Active',
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `student_code` (`student_code`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `students`
---
-
-LOCK TABLES `students` WRITE;
-/*!40000 ALTER TABLE `students` DISABLE KEYS */;
-INSERT INTO `students` VALUES (1,'STU001','John','Doe','john.doe@example.com','1234567890','2000-05-15','Male','123 Main St, City','Computer Science',2022,'Active','2026-07-10 10:08:00','2026-07-10 10:08:00'),(2,'STU002','Jane','Smith','jane.smith@example.com','0987654321','2001-08-22','Female','456 Oak Ave, Town','Mathematics',2022,'Active','2026-07-10 10:08:00','2026-07-10 10:08:00'),(3,'STU003','Bob','Johnson','bob.johnson@example.com','5551234567','1999-12-10','Male','789 Pine Rd, Village','Physics',2021,'Graduated','2026-07-10 10:08:00','2026-07-10 10:08:00'),(4,'STU004','Alice','Williams','alice.williams@example.com','4449876543','2002-03-30','Female','321 Elm St, City','Computer Science',2023,'Active','2026-07-10 10:08:00','2026-07-10 10:08:00'),(5,'STU005','Charlie','Brown','charlie.brown@example.com','7775553333','2000-07-18','Male','654 Maple Dr, Suburb','Engineering',2022,'Inactive','2026-07-10 10:08:00','2026-07-10 10:08:00');
-/*!40000 ALTER TABLE `students` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2026-07-10 16:39:11
+INSERT INTO students (roll_number, first_name, last_name, email, phone, gender, date_of_birth, department_id, address) VALUES
+('STU001', 'John', 'Doe', 'john.doe@example.com', '1234567890', 'Male', '2000-05-15', 1, '123 Main St, City'),
+('STU002', 'Jane', 'Smith', 'jane.smith@example.com', '0987654321', 'Female', '2001-08-22', 2, '456 Oak Ave, Town'),
+('STU003', 'Bob', 'Johnson', 'bob.johnson@example.com', '5551234567', 'Male', '1999-12-10', 3, '789 Pine Rd, Village'),
+('STU004', 'Alice', 'Williams', 'alice.williams@example.com', '4449876543', 'Female', '2002-03-30', 1, '321 Elm St, City'),
+('STU005', 'Charlie', 'Brown', 'charlie.brown@example.com', '7775553333', 'Male', '2000-07-18', 4, '654 Maple Dr, Suburb');
