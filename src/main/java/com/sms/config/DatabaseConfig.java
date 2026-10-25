@@ -6,9 +6,16 @@ import java.sql.SQLException;
 
 public class DatabaseConfig {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/student_management_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "rootroot";
+    // Credentials come from environment variables so no password lives in the code.
+    private static final String URL = env("DB_URL",
+            "jdbc:mysql://localhost:3306/student_management_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC");
+    private static final String USERNAME = env("DB_USERNAME", "root");
+    private static final String PASSWORD = env("DB_PASSWORD", "");
+
+    private static String env(String name, String fallback) {
+        String value = System.getenv(name);
+        return value == null || value.isBlank() ? fallback : value;
+    }
 
     static {
         try {
