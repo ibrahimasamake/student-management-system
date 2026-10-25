@@ -103,12 +103,15 @@ student-management-system/
    SELECT * FROM departments;
    ```
 
-5. **Update database credentials** in `src/main/java/com/sms/config/DatabaseConfig.java`:
+5. **Set the database credentials** as environment variables (read by `DatabaseConfig.java`):
 
-   ```java
-   private static final String USERNAME = "root";     // change to your MySQL username
-   private static final String PASSWORD = "rootroot";  // change to your MySQL password
+   ```bash
+   export DB_USERNAME=root            # default: root
+   export DB_PASSWORD=your_password   # default: empty
+   # optional: export DB_URL=jdbc:mysql://localhost:3306/student_management_db
    ```
+
+   In Eclipse, add them under *Run Configurations → Environment* for the Tomcat server.
 
 ## How to Import in Eclipse
 
@@ -231,8 +234,7 @@ student-management-system/
 **Cause:** MySQL credentials in `DatabaseConfig.java` do not match your MySQL setup.
 
 **Fix:**
-- Open `src/main/java/com/sms/config/DatabaseConfig.java`
-- Update `USERNAME` and `PASSWORD` to match your MySQL credentials
+- Set `DB_USERNAME` and `DB_PASSWORD` to match your MySQL credentials (see step 5)
 - Restart the server
 
 ### Error 6: `Unknown database 'student_management_db'`
